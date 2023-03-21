@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile
+from .models import Profile, Project
 
 
 class ProfileSerializer(serializers.Serializer):
@@ -21,8 +21,23 @@ class ProfileSerializer(serializers.Serializer):
     challenge = serializers.CharField(max_length=None)
     # user_id = serializers.CharField(max_length=200)
 
+   
     def create(self, validated_data):
         return Profile.objects.create(**validated_data)
 
 
+class ProjectSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    title = serializers.CharField(max_length=200)
+    image = serializers.URLField()
+    description = serializers.CharField(max_length=None)
+    url = serializers.URLField()
+    profile_id = serializers.IntegerField()
+    
+
+    def create(self, validated_data):
+        return Project.objects.create(**validated_data)
+
+class ProfileDetailSerializer(ProfileSerializer):
+    project = ProjectSerializer(many=True, read_only=True)
 

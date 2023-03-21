@@ -18,11 +18,17 @@ class Profile(models.Model):
     challenge = models.TextField()
 
 
-# class Project(models.Model):
-#     title = models.CharField(max_length=200)
-#     image = models.URLField()
-#     description = models.TextField()
-#     url = models.URLField()
+class Project(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.URLField()
+    description = models.TextField()
+    url = models.URLField()
+    profile = models.ForeignKey(
+        'profile',
+        on_delete=models.CASCADE,
+        related_name='project'
+    )
+    supporter = models.CharField(max_length=200)
 
 
   
