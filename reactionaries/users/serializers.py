@@ -11,7 +11,8 @@ class CustomUserSerializer(serializers.Serializer):
     is_approved = serializers.BooleanField()
     is_active = serializers.BooleanField()
     date_joined = serializers.DateTimeField(default=timezone.now)
-    username = serializers.CharField(max_length=200, default=" ")
+    password = serializers.CharField(max_length=200)
+    # username = serializers.CharField(max_length=200, default=" ")
 
     def create(self, validated_data):
         return CustomUser.objects.create_user(**validated_data)
