@@ -1,5 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 class Profile(models.Model):
     display_name = models.CharField(max_length=200)
     bio = models.TextField()
@@ -16,6 +18,11 @@ class Profile(models.Model):
     is_public = models.BooleanField()
     allow_contact = models.BooleanField()
     challenge = models.TextField()
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='user_profile',
+    )
 
 
 class Project(models.Model):
@@ -28,10 +35,9 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='project'
     )
-    supporter = models.CharField(max_length=200)
 
 
-  
+
 
 
 
