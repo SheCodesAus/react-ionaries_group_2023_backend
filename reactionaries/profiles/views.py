@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from .models import Profile, Project
 from .serializers import ProfileSerializer, ProjectSerializer, ProfileDetailSerializer
 from django.http import Http404
-from rest_framework import status
+from rest_framework import status, generics
+
 
 
 class ProfileList(APIView):
@@ -41,6 +42,24 @@ class ProfileDetail(APIView):
         serializer = ProfileDetailSerializer(profile)
         return Response(serializer.data)
 
+    def put(self,request,pk):
+        profile = self.get_object(pk)
+        data = request.data
+        serializer = ProfileDetailSerializer(
+            instance=profile,
+            data=data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request,id=None):
+        profile = self.get_object(id=id)
+        profile.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
+
+
 
 
 class ProjectList(APIView):
@@ -63,5 +82,7 @@ class ProjectList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
 
 

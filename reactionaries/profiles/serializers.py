@@ -41,3 +41,6 @@ class ProjectSerializer(serializers.Serializer):
 class ProfileDetailSerializer(ProfileSerializer):
     project = ProjectSerializer(many=True, read_only=True)
 
+  
+
+
