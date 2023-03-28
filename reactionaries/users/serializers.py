@@ -13,18 +13,18 @@ class CustomUserSerializer(serializers.Serializer):
     is_active = serializers.BooleanField()
     date_joined = serializers.DateTimeField(default=timezone.now)
     is_admin = serializers.BooleanField()
+    password = serializers.CharField(write_only = True)
 
     def create(self, validated_data):
         return CustomUser.objects.create_user(**validated_data)
 
+class UserDetailSerializer(CustomUserSerializer):
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email',instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.email = validated_data.get('email', instance.email)
-        instance.is_approved = validated_data.get('is_approved', instance.is_approved)
         instance.is_active = validated_data.get('is_active', instance.is_active)
-        instance.date_joined = validated_data.get('date_joined', instance.date_joined)
-        instance.is_admin = validated_data.get('is_admin', instance.is_admin)
         instance.save()
+
         return instance
