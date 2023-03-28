@@ -41,6 +41,39 @@ class ProjectSerializer(serializers.Serializer):
 class ProfileDetailSerializer(ProfileSerializer):
     project = ProjectSerializer(many=True, read_only=True)
 
+
+    def update(self, instance, validated_data):
+        instance.display_name = validated_data.get('display_name', instance.display_name)
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.previous_role = validated_data.get('previous_role', instance.previous_role)
+        instance.current_role = validated_data.get('current_role', instance.current_role)
+        instance.profile_image = validated_data.get('profile_image', instance.profile_image)
+        instance.birthdate = validated_data.get('birthdate', instance.birthdate)
+        instance.pronouns = validated_data.get('pronouns', instance.pronouns)
+        instance.gender = validated_data.get('gender', instance.gender)
+        instance.ethnicity = validated_data.get('ethnicity', instance.ethnicity)
+        instance.linkedin_url = validated_data.get('linkedin_url', instance.linkedin_url)
+        instance.github_url = validated_data.get('github_url', instance.github_url)
+        instance.is_visible = validated_data.get('is_visible', instance.is_visible)
+        instance.is_public  = validated_data.get('date_created', instance.is_public )
+        instance.allow_contact = validated_data.get('allow_contact', instance.allow_contact)
+        instance.challenge = validated_data.get('challenge', instance.challenge)
+        instance.save()
+        return instance
+
+
+class ProjectDetailSerializer(ProjectSerializer):
+    
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.image = validated_data.get('image ', instance.image )
+        instance.url = validated_data.get('url', instance.url)
+        instance.profile = validated_data.get('profile', instance.profile) 
+        instance.save()
+        return instance
+
   
 
 
