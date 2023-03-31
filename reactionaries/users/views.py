@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from .models import CustomUser
-from .serializers import CustomUserSerializer, UserDetailSerializer
+from .serializers import CustomUserSerializer, UserDetailSerializer, UserNestedSerializer
+from rest_framework.permissions import IsAdminUser
 
 
 class CustomUserList(APIView):
@@ -45,5 +46,7 @@ class CustomerUserDetail(APIView):
             serializer.save()
             return Response(serializer.data)
 
-
-# Create your views here.
+class AdminUserView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserNestedSerializer
+    permission_classes = [IsAdminUser]

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 from .models import CustomUser
+from profiles.serializers import ProfileSerializer
 
 
 class CustomUserSerializer(serializers.Serializer):
@@ -28,3 +29,6 @@ class UserDetailSerializer(CustomUserSerializer):
         instance.save()
 
         return instance
+    
+class UserNestedSerializer(CustomUserSerializer):
+    user_profile = ProfileSerializer (many=True, read_only=True)
