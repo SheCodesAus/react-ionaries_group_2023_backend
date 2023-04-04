@@ -19,7 +19,7 @@ class ProfileSerializer(serializers.Serializer):
     is_public = serializers.BooleanField()
     allow_contact = serializers.BooleanField()
     challenge = serializers.CharField(max_length=None)
-    user_id = serializers.ReadOnlyField(source='user_id.id')
+    user = serializers.ReadOnlyField(source='user_id')
 
    
     def create(self, validated_data):

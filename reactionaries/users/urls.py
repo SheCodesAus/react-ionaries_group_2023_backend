@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.CustomUserList.as_view()),
     path('<int:pk>/', views.CustomerUserDetail.as_view()),
     path('admin-user/', views.AdminUserView.as_view()),
+    path('whoami/', views.WhoAmIDetail.as_view(), name="whoami"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
