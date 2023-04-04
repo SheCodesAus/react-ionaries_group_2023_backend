@@ -12,7 +12,7 @@ class CustomUserSerializer(serializers.Serializer):
     last_name = serializers.CharField(max_length=200)
     email = serializers.EmailField()
     is_approved = serializers.BooleanField(default=False)
-    is_active = serializers.BooleanField(defualt=True)
+    is_active = serializers.BooleanField(default=True)
     date_joined = serializers.DateTimeField(default=timezone.now)
     is_staff = serializers.BooleanField(default=False)
     password = serializers.CharField(write_only = True)
