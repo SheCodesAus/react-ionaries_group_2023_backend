@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from .models import CustomUser
-from .serializers import CustomUserSerializer, UserDetailSerializer, UserNestedSerializer
+from .serializers import CustomUserSerializer, UserDetailSerializer, UserNestedSerializer, CustomUserDetailSerializer
 from rest_framework.permissions import IsAdminUser
 
 
@@ -48,5 +48,5 @@ class CustomerUserDetail(APIView):
 
 class AdminUserView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = UserNestedSerializer
+    serializer_class = CustomUserDetailSerializer
     permission_classes = [IsAdminUser]

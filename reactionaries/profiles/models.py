@@ -18,10 +18,10 @@ class Profile(models.Model):
     is_public = models.BooleanField()
     allow_contact = models.BooleanField()
     challenge = models.TextField()
-    user_id = models.ForeignKey(
+    user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name='user_profile',
+        related_name='profile',
     )
 
 

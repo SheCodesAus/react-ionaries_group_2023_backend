@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.utils import timezone
 from .models import CustomUser
 from profiles.serializers import ProfileSerializer
+from profiles.models import Profile
 
 
 class CustomUserSerializer(serializers.Serializer):
@@ -10,10 +11,10 @@ class CustomUserSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=200)
     last_name = serializers.CharField(max_length=200)
     email = serializers.EmailField()
-    is_approved = serializers.BooleanField()
+    is_approved = serializers.BooleanField(default=False)
     is_active = serializers.BooleanField()
     date_joined = serializers.DateTimeField(default=timezone.now)
-    is_admin = serializers.BooleanField()
+    is_staff = serializers.BooleanField(default=False)
     password = serializers.CharField(write_only = True)
 
     def create(self, validated_data):
@@ -32,3 +33,27 @@ class UserDetailSerializer(CustomUserSerializer):
     
 class UserNestedSerializer(CustomUserSerializer):
     user_profile = ProfileSerializer (many=True, read_only=True)
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+
+class CustomUserDetailSerializer(serializers.ModelSerializer):
+    """ a detail serializer for our user class """
+    profile = UserProfileSerializer()
+    class Meta:
+        model = CustomUser
+        fields = [
+            'id',
+            'profile',
+            'last_login',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'date_joined',
+            'is_approved',
+            'is_staff',
+        ]
