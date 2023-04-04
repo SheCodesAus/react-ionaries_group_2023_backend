@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, permissions
 from .models import CustomUser
 from .serializers import CustomUserSerializer, UserDetailSerializer, UserNestedSerializer, CustomUserDetailSerializer
 from rest_framework.permissions import IsAdminUser
@@ -50,3 +50,13 @@ class AdminUserView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserDetailSerializer
     permission_classes = [IsAdminUser]
+
+class WhoAmIDetail(generics.RetrieveAPIView):
+    """ a detail view specifically to show the info for the logged in user """
+
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CustomUserDetailSerializer
+
+    def get_object(self):
+        """ get the logged in user from the request """
+        return self.request.user
